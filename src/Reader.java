@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Reader {
 
-	private Scanner scanner = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 
 	public String setExpression() {
 		boolean check = false;
@@ -18,7 +18,7 @@ public class Reader {
 		}
 		return expression;
 	}
-
+	
 	public String setNumberLine() {
 		boolean check = false;
 		String numberLine = "";
@@ -29,5 +29,19 @@ public class Reader {
 			check = StringValidator.checkNumberLine(numberLine);
 		}
 		return numberLine;
+	}
+	
+	public int readeValue(String parameter) {
+		int n;
+		do {
+			System.out.printf("Enter the %s: ",parameter);
+			while (!scanner.hasNextInt()) {
+				scanner.next();
+				Helper.printNumberAllert();
+			}
+			n = scanner.nextInt();
+			break;
+		} while (true);
+		return n;
 	}
 }

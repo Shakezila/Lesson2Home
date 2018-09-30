@@ -1,13 +1,13 @@
 
 public class Calculator {
 
-	Operation operation = new Operation();
-	Reader reader = new Reader();
-	String expression;
-	String numberOrder;
-	String signs;
-	double[] array;
-	double[] dVariables;
+	private Operation operation = new Operation();
+	private Reader reader = new Reader();
+	private String expression;
+	private String numberOrder;
+	private String signs;
+	private double[] array;
+	private double[] dVariables;
 
 	public String getNumberOrder() {
 		return numberOrder;
@@ -41,6 +41,38 @@ public class Calculator {
 		this.signs = devisions;
 	}
 
+	public void quadraticEquation() {
+		int a, b, c, D;
+		double x1 = 0, x2 = 0;
+		String parameter = "number";
+
+		do {
+			System.out.print("Enter the number: ");
+			while (!reader.scanner.hasNextInt()) {
+				reader.scanner.next();
+				Helper.printNumberAllert();
+			}
+			a = reader.scanner.nextInt();
+		} while (a < 0);
+
+		b = reader.readeValue(parameter + " b");
+		c = reader.readeValue(parameter + " c");
+
+		D = (int) Math.pow(b, 2) - 4 * a * c;
+
+		if (D > 0) {
+			x1 = ((b * -1) + Math.sqrt(D)) / 2 * a;
+			x2 = ((b * -1) - Math.sqrt(D)) / 2 * a;
+		} else if (D == 0) {
+			x1 = ((b * -1) + Math.sqrt(D)) / 2 * a;
+			x2 = x1;
+		} else if (D < 0) {
+			System.out.println("This equartion doesn't have any roots!");
+		}
+
+		System.out.printf("x1 = %.2f, x2 = %.2f", x1, x2);
+	}
+
 	public void run() {
 		boolean check = false;
 		do {
@@ -48,14 +80,85 @@ public class Calculator {
 			this.expression.trim();
 			check = StringValidator.expressionValidator(expression);
 			if (check) {
-				createArray(Helper.getArraySize(expression));
+				createDVariables(Helper.getArraySize(expression));
 				this.signs = Helper.collectSign(expression);
-				Helper.setArrayFromLine(this.array, expression);
-				calculate(this.array, this.signs);
+				Helper.setArrayFromLine(this.dVariables, expression);
+				calculate(this.dVariables, this.signs);
 			} else {
 				Helper.printAlert();
 			}
 		} while (!check);
+	}
+
+	public void findMinMax() {
+		this.numberOrder = reader.setNumberLine();
+		this.numberOrder.trim();
+		createArray(Helper.getArraySize(numberOrder));
+		Helper.setArrayFromLine(array, numberOrder);
+		operation.findMinMax(array);
+	}
+
+	public void checkIntervals() {
+		int n;
+		int i1 = 0;
+		int i2 = 0;
+		int inCounter = 0;
+
+		n = reader.readeValue("number");
+
+		while (inCounter < 2) {
+			System.out.print("Enter the interval: ");
+			if (inCounter == 0) {
+				while (!reader.scanner.hasNextInt()) {
+					reader.scanner.next();
+					Helper.printNumberAllert();
+				}
+				i1 = reader.scanner.nextInt();
+				inCounter++;
+			} else {
+				while (!reader.scanner.hasNextInt()) {
+					reader.scanner.next();
+					Helper.printNumberAllert();
+				}
+				i2 = reader.scanner.nextInt();
+				inCounter++;
+			}
+		}
+
+		if (n > i1 && n < i2) {
+			System.out.printf("%d belongs (%d,%d)\n", n, i1, i2);
+		} else if (n >= i1 && n < i2) {
+			System.out.printf("%d belongs [%d,%d)\n", n, i1, i2);
+		} else if (n > i1 && n <= i2) {
+			System.out.printf("%d belongs (%d,%d]\n", n, i1, i2);
+		} else if (n >= i1 && n <= i2) {
+			System.out.printf("%d belongs [%d,%d]\n", n, i1, i2);
+		}
+	}
+
+	public void printMatrix() {
+		int n, square;
+		int i = 1;
+
+		do {
+			System.out.print("Enter the number: ");
+			while (!reader.scanner.hasNextInt()) {
+				reader.scanner.next();
+				Helper.printNumberAllert();
+			}
+			n = reader.scanner.nextInt();
+			break;
+		} while (true);
+
+		square = (int) Math.sqrt(n);
+
+		while (i <= n) {
+			System.out.printf("%5d ", i);
+			if (i % square == 0) {
+				System.out.println("");
+			}
+			i++;
+		}
 	}
 
 	private void calculate(double[] array, String signs) {

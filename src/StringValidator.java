@@ -26,6 +26,12 @@ public class StringValidator {
 		Matcher m = p.matcher(var);
 		return m.matches();
 	}
+	
+	static boolean checkMenu(String menu) {
+		Pattern p = Pattern.compile("^[0-5q]{1,1}$");
+		Matcher m = p.matcher(menu);
+		return m.matches();
+	}
 
 	static boolean expressionValidator(String expression) {
 		boolean process = true;

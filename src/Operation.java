@@ -32,7 +32,7 @@ public class Operation {
 				maxVal = array[i];
 			}
 		}
-		System.out.printf("Min value = %.2f Max value = %.2f%n", maxVal, maxVal);
+		System.out.printf("Min value = %.2f Max value = %.2f\n\n", minVal, maxVal);
 	}
 
 }

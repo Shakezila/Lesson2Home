@@ -49,4 +49,8 @@ public class Helper {
 	static void printAlert() {
 		System.out.println("You entered invalid expession!");
 	}
+	
+	static void printNumberAllert() {
+		System.out.println("You entered not a number!");
+	}
 }
